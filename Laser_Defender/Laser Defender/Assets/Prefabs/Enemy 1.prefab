@@ -13,7 +13,9 @@ GameObject:
   - component: {fileID: 114522120862468202}
   - component: {fileID: 114015455422577282}
   - component: {fileID: 58537251326544080}
-  m_Layer: 0
+  - component: {fileID: 114698834108774906}
+  - component: {fileID: 50922897774419584}
+  m_Layer: 9
   m_Name: Enemy 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,6 +109,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
+  shotCounter: 0
+  minTimeBetweenShots: 0.2
+  maxTimeBetweenShots: 3
+  projectileSpeed: 5
+  explosionDuration: 1
+  projectile: {fileID: 6134560061007923191, guid: 1b3dd68a784cfcc4cb4238579d9eba87,
+    type: 3}
+  deathVFX: {fileID: 1872755150385950418, guid: a1a8f3d4f86eeaa4c837513f53539e13,
+    type: 3}
+  deathSFX: {fileID: 8300000, guid: 9aa37855aa64be44ea42ff9a6d00a300, type: 3}
+  deathSFXVolume: 0.7
+  shootSFX: {fileID: 8300000, guid: 8fd3491390f9dc84a85cedc1ea0120b2, type: 3}
+  shootSFXVolume: 0.7
 --- !u!58 &58537251326544080
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -117,9 +132,43 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.02}
   serializedVersion: 2
   m_Radius: 0.45064217
+--- !u!114 &114698834108774906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4458098608151883981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fc0a93e9a9771f4c8a8f0092e0e7883, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1000
+--- !u!50 &50922897774419584
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4458098608151883981}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
