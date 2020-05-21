@@ -6,11 +6,10 @@ public class AttackerSpawner : MonoBehaviour
 {
     [SerializeField] float minSpawnDelay = 1f;
     [SerializeField] float maxSpawnDelay = 5f;
-    [SerializeField] Attacker attackerPrefab;
+    [SerializeField] Attacker[] attackerPrefabArray;
 
     bool spawn = true;
 
-    // Start is called before the first frame update
     IEnumerator Start()
     {
         while(spawn)
@@ -20,15 +19,21 @@ public class AttackerSpawner : MonoBehaviour
         }
     }
 
-    private void SpawnAttacker()
+    public void StopSpawning()
     {
-        Attacker newAttacker = Instantiate(attackerPrefab, transform.position, transform.rotation) as Attacker;
-        newAttacker.transform.parent = transform;
+        spawn = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void SpawnAttacker()
     {
-        
+        var index = Random.Range(0, attackerPrefabArray.Length);
+        Attacker attacker = attackerPrefabArray[index];
+        Spawn(attacker);
+    }
+
+    private void Spawn(Attacker attacker)
+    {
+        Attacker newAttacker = Instantiate(attacker, transform.position, transform.rotation) as Attacker;
+        newAttacker.transform.parent = transform;
     }
 }
