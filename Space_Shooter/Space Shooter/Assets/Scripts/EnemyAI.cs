@@ -10,10 +10,16 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private GameObject _enemy;
     [SerializeField] private GameObject _explosion;
 
+    private UIManager _uiManager;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        if (_uiManager)
+        {
+            _uiManager.UpdateScore(0);
+        }
     }
 
     // Update is called once per frame
@@ -40,11 +46,9 @@ public class EnemyAI : MonoBehaviour
             case "Player":
                 Player p = other.GetComponent<Player>();
                 if (p) p.getDamage();
-                Spawn();
                 Die();
                 break;
             case "Laser":
-                Spawn();
                 Destroy(other.gameObject);
                 Die();
                 break;
@@ -53,15 +57,10 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    private void Spawn()
-    {
-        float randomXPosition = Random.Range(-8, 8);
-        Instantiate(_enemy, new Vector3(randomXPosition, 6.0f, 0), Quaternion.identity);
-    }
-
     private void Die()
     {
         Instantiate(_explosion, transform.position, Quaternion.identity);
+        _uiManager.UpdateScore(100);
         Destroy(gameObject);
     }
 }

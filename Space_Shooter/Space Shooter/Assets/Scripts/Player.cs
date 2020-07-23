@@ -18,6 +18,9 @@ public class Player : MonoBehaviour
     [SerializeField] private float _fireRate = 0.25f;
     [SerializeField] private float _powerupTimer = 5.0f;
 
+    private UIManager _uiManager;
+    private GameManager _gameManager;
+    private SpawnManager _spawnManager;
     private float _nextFire = 0.0f;
     private Vector3 _laserPos = new Vector3(0, 1f, 0);
 
@@ -26,7 +29,15 @@ public class Player : MonoBehaviour
     void Start()
     {
         transform.position = new Vector3(0, 0, 0);
-        Debug.Log(Camera.main.WorldToScreenPoint(transform.position));
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
+        _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+
+        if (_uiManager) {
+            _uiManager.UpdateLives(playerHealth);
+        }
+
+        _spawnManager.StartSpawnRoutines();
     }
 
     // Update is called once per frame
@@ -104,9 +115,16 @@ public class Player : MonoBehaviour
         
         --playerHealth;
 
+        if (_uiManager)
+        {
+            _uiManager.UpdateLives(playerHealth);
+        }
+
         if (playerHealth < 1)
         {
             Instantiate(_explosion, transform.position, Quaternion.identity);
+            _gameManager.gameOver = true;
+            _uiManager.ShowTitleScreen();
             Destroy(gameObject);
         }
     }
