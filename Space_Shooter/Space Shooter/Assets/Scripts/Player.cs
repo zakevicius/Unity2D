@@ -17,14 +17,17 @@ public class Player : MonoBehaviour
     [SerializeField] private float _speedBoost = 2.0f;
     [SerializeField] private float _fireRate = 0.25f;
     [SerializeField] private float _powerupTimer = 5.0f;
+    [SerializeField] private GameObject[] engines;
 
     private UIManager _uiManager;
     private GameManager _gameManager;
     private SpawnManager _spawnManager;
     private float _nextFire = 0.0f;
     private Vector3 _laserPos = new Vector3(0, 1f, 0);
+    private AudioSource _audioSource;
+    private int hitCount = 0;
 
-    
+       
     // Start is called before the first frame update
     void Start()
     {
@@ -38,6 +41,9 @@ public class Player : MonoBehaviour
         }
 
         _spawnManager.StartSpawnRoutines();
+        _audioSource = GetComponent<AudioSource>();
+
+        hitCount = 0;
     }
 
     // Update is called once per frame
@@ -55,6 +61,8 @@ public class Player : MonoBehaviour
     {        
         if (Time.time > _nextFire)
         {
+            _audioSource.Play();
+
             if (canTripleShot)
             {
                 Instantiate(_tripleShot, transform.position, Quaternion.identity);
@@ -112,8 +120,21 @@ public class Player : MonoBehaviour
             _shield.SetActive(false);
             return;
         } 
-        
-        --playerHealth;
+        else
+        {
+            playerHealth--;
+            hitCount++;
+
+            if (hitCount == 1)
+            {
+                engines[0].SetActive(true);
+            }
+
+            if (hitCount == 2)
+            {
+                engines[1].SetActive(true);
+            }
+        }        
 
         if (_uiManager)
         {

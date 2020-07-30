@@ -9,6 +9,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float _speed = 3.0f;
     [SerializeField] private GameObject _enemy;
     [SerializeField] private GameObject _explosion;
+    [SerializeField] private AudioClip _audioClip;
 
     private UIManager _uiManager;
 
@@ -59,6 +60,7 @@ public class EnemyAI : MonoBehaviour
 
     private void Die()
     {
+        AudioSource.PlayClipAtPoint(_audioClip, Camera.main.transform.position);
         Instantiate(_explosion, transform.position, Quaternion.identity);
         _uiManager.UpdateScore(100);
         Destroy(gameObject);
